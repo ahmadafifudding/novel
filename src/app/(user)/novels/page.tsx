@@ -25,13 +25,10 @@ async function getNovels(): Promise<NovelResponse> {
 
 export default async function NovelPage() {
   const data = await getNovels()
-  console.log(data)
 
   return (
-    <div className="mx-auto">
-      <div className="max-w-container mx-auto grid grid-cols-1 divide-y divide-slate-100 sm:grid-cols-3 sm:divide-none md:grid-cols-5 md:gap-x-12">
-        {data?.data.map((novel) => <NovelItem key={novel.id} novel={novel} />)}
-      </div>
+    <div className="grid grid-cols-1 divide-y divide-slate-100 sm:grid-cols-3 sm:divide-none md:grid-cols-5 md:gap-x-12">
+      {data?.data.map((novel) => <NovelItem key={novel.id} novel={novel} />)}
     </div>
   )
 }

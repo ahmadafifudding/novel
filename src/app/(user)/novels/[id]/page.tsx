@@ -1,4 +1,12 @@
-async function getNovel(id: number) {
+import { Novel } from '@/types'
+
+import { NovelDetails } from '@/components/novel-details'
+
+type NovelResponse = {
+  data: Novel
+}
+
+async function getNovel(id: number): Promise<NovelResponse> {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/api/novel/${id}?htmlToText=0`,
     {
@@ -21,5 +29,9 @@ export default async function NovelPage({
   params: { id: number }
 }) {
   const data = await getNovel(id)
-  return <>{id}</>
+  return (
+    <div className="px-4 py-6">
+      <NovelDetails novel={data?.data} />
+    </div>
+  )
 }

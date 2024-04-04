@@ -7,6 +7,7 @@ import { getYear } from '@/lib/utils'
 export function NovelItem({ novel }: { novel: Novel }) {
   const baseImageUrl = process.env.NEXT_PUBLIC_API_URL
   const { id, title, author, cover, ratings, publication, genre } = novel
+
   return (
     <article className="flex items-center space-x-6 p-6 sm:space-x-0 sm:p-0 md:grid">
       <Image
