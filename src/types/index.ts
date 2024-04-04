@@ -53,6 +53,7 @@ export type Novel = {
   genre: string
   language: string
   ratings: number
-  description: string
+  descriptions: string
   plotSummary: string
+  cover: CoverImage
 }
