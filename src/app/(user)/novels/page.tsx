@@ -8,7 +8,7 @@ type NovelResponse = {
 
 async function getNovels(): Promise<NovelResponse> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/listNovel?htmlToText=0`,
+    `${process.env.NEXT_PUBLIC_API_URL}/api/listNovel?htmlToText=0`,
     {
       headers: {
         Authorization: `Bearer ${process.env.API_TOKEN_NOVEL}`,
@@ -28,8 +28,10 @@ export default async function NovelPage() {
   console.log(data)
 
   return (
-    <div className="grid">
-      {data?.data.map((novel) => <NovelItem key={novel.id} novel={novel} />)}
+    <div className="mx-auto">
+      <div className="max-w-container mx-auto grid grid-cols-1 divide-y divide-slate-100 sm:grid-cols-3 sm:divide-none md:grid-cols-5 md:gap-x-12">
+        {data?.data.map((novel) => <NovelItem key={novel.id} novel={novel} />)}
+      </div>
     </div>
   )
 }

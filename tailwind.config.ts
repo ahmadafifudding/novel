@@ -22,6 +22,9 @@ const config = {
       colors: {
         brand: colors.teal
       },
+      maxWidth: {
+        container: "88rem"
+      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
