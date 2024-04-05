@@ -9,6 +9,17 @@ export type SiteConfig = {
   }
 }
 
+export type NavItem = {
+  title: string
+  href: string
+  disabled?: boolean
+  exact?: boolean
+}
+
+export type DashboardConfig = {
+  mainNav: NavItem[]
+}
+
 export type CoverImage = {
   id: number
   name: string

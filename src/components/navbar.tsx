@@ -1,9 +1,11 @@
-import Link from 'next/link'
+import { dashboardConfig } from '@/config/dashboard'
+
+import { Nav } from './nav'
 
 export function Navbar() {
   return (
     <header className="supports-backdrop-blur:bg-white/60 sticky top-0 z-40 border-b bg-white/95 backdrop-blur transition-colors">
-      <div className="max-w-container mx-auto">
+      <div className="mx-auto max-w-container">
         <div className="py-4">
           <div className="relative flex items-center px-4 lg:px-0">
             <svg
@@ -27,15 +29,7 @@ export function Navbar() {
               </defs>
             </svg>
             <div className="ml-auto">
-              <nav className="text-sm font-semibold leading-6 text-slate-700">
-                <ul>
-                  <li>
-                    <Link href={`/novels`} className="hover:text-brand-500">
-                      Novels
-                    </Link>
-                  </li>
-                </ul>
-              </nav>
+              <Nav navs={dashboardConfig.mainNav} />
             </div>
           </div>
         </div>

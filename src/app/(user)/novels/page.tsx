@@ -1,5 +1,6 @@
 import { Novel } from '@/types'
 
+import { env } from '@/lib/env.mjs'
 import { NovelItem } from '@/components/novel-item'
 
 type NovelResponse = {
@@ -8,7 +9,7 @@ type NovelResponse = {
 
 async function getNovels(): Promise<NovelResponse> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/api/listNovel?htmlToText=0`,
+    `${env.NEXT_PUBLIC_API_URL}/api/listNovel?htmlToText=0`,
     {
       headers: {
         Authorization: `Bearer ${process.env.API_TOKEN_NOVEL}`,
