@@ -17,6 +17,12 @@ export const registerSchema = z.object({
     phoneNumber: z.string().min(10),
 })
 
+export const verificationSchema = z.object({
+    identifier: email,
+    code: z.string().length(6, {
+        message: "Your one-time password must be 6 characters."
+    })
+});
 
-export type LoginSchema = z.infer<typeof loginSchema>;
-export type RegisterSchema = z.infer<typeof registerSchema>;
+
+export type VerificationSchema = z.infer<typeof verificationSchema>;

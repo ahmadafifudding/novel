@@ -1,10 +1,13 @@
 'use server'
 
 import { loginSchema, registerSchema } from "@/lib/validations"
+import { env } from "@/lib/env.mjs"
+import { redirect } from "next/navigation"
 
 export async function authenticate(_currentState: any, formData: FormData) {
+    const email = formData.get('email') as string
     const validatedFields = loginSchema.safeParse({
-        email: formData.get('email') as string
+        email
     })
 
     if (!validatedFields.success) {
@@ -13,9 +16,27 @@ export async function authenticate(_currentState: any, formData: FormData) {
         }
     }
 
-    return {
-        message: "Please enter a valid email"
+    const response = await fetch(`${env.NEXT_PUBLIC_API_URL}/api/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${env.API_TOKEN_NOVEL}`
+        },
+        body: JSON.stringify({ identifier: email }),
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        return {
+            message: data?.error?.message || 'Something went wrong',
+        }
     }
+
+    console.log(data)
+
+    const redirectUrl = `/verification?email=${email}&code=${data?.otp}`
+    redirect(redirectUrl)
 }
 
 export async function register(_currentState: any, formData: FormData) {
@@ -38,4 +59,8 @@ export async function register(_currentState: any, formData: FormData) {
         message: "Please enter a valid email"
     }
 
+}
+
+export async function validateOTP(formData: FormData) {
+    console.log(formData)
 }

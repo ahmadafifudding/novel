@@ -4,7 +4,7 @@ import { cva, VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
 
-const spinnerVariants = cva('animate-spin text-brand-500', {
+const spinnerVariants = cva('animate-spin text-white', {
   variants: {
     size: {
       sm: 'w-5 h-5',
