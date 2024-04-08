@@ -26,3 +26,7 @@ export const verificationSchema = z.object({
 
 
 export type VerificationSchema = z.infer<typeof verificationSchema>;
+
+const loginShema = z.object({
+    emaiL: z.string().email(),
+})

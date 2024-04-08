@@ -1,3 +1,5 @@
+export type Gender = "Male" | "Female"
+
 export type CoverImage = {
     id: number
     name: string
@@ -52,6 +54,22 @@ export type CountryCode = {
     dialCode: string
     flag: string
     code: string
+}
+
+export type User = {
+    id: number
+    username: string
+    email: string
+    provider: string
+    resetPasswordToken: string | null
+    confirmationToken: string | null
+    confirmed: boolean
+    blocked: boolean
+    gender: Gender
+    nationality: string
+    phoneNumber: string
+    firstName: string
+    lastName: string
 }
 
 export type FetchNovel = {
