@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import { SearchParams } from '@/types'
 
-import { OTPVerificationForm } from '@/components/otp-verification-form'
+import { VerifyOTPForm } from '@/components/verify-otp-form'
 
 export const metadata: Metadata = {
   title: 'Verify OTP',
@@ -13,8 +13,8 @@ export default function VerificationPage({
 }: {
   searchParams: SearchParams
 }) {
-  const email = searchParams.email as string
-  const code = searchParams.code as string
+  const identifier = searchParams.identifier as string
+  const code = Number(searchParams.code)
 
   return (
     <>
@@ -23,7 +23,7 @@ export default function VerificationPage({
           OTP Verification
         </h4>
       </div>
-      <OTPVerificationForm email={email} code={code} />
+      <VerifyOTPForm identifier={identifier} code={code} />
     </>
   )
 }

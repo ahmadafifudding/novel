@@ -1,11 +1,19 @@
+import { Coda } from 'next/font/google';
 import { z } from 'zod';
 
-export const email = z.string().email({
-    message: "Please enter a valid email"
+export const email = z.string({
+    required_error: "Please provide an email"
+}).email({
+    message: "Please provide a valid email"
 });
 
 export const loginSchema = z.object({
-    email,
+    identifier: email
+})
+
+export const authenticateSchema = z.object({
+    identifier: email,
+    code: z.string().length(6, {})
 })
 
 export const registerSchema = z.object({
@@ -26,7 +34,4 @@ export const verificationSchema = z.object({
 
 
 export type VerificationSchema = z.infer<typeof verificationSchema>;
-
-const loginShema = z.object({
-    emaiL: z.string().email(),
-})
+export type LoginSchema = z.infer<typeof loginSchema>;
