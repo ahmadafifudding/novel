@@ -13,7 +13,9 @@ export const loginSchema = z.object({
 
 export const authenticateSchema = z.object({
     identifier: email,
-    code: z.string().length(6, {})
+    code: z.string().length(6, {
+        message: "Your one-time password must be 6 characters"
+    })
 })
 
 export const registerSchema = z.object({

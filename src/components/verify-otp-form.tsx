@@ -24,8 +24,14 @@ export function VerifyOTPForm({ identifier, code }: VerifyOTPFormProps) {
   return (
     <form action={dispatch} className="mt-6 space-y-3">
       <div className="sr-only grid space-y-2">
-        <Label htmlFor="email">Email</Label>
-        <Input id="email" type="email" name="email" value={identifier} />
+        <Label htmlFor="identifier">Email</Label>
+        <Input
+          id="identifier"
+          type="email"
+          name="identifier"
+          value={identifier}
+          readOnly
+        />
       </div>
       <div className="grid space-y-2">
         <Label htmlFor="code" className="mb-4 text-center">

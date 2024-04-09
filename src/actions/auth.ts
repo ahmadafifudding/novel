@@ -1,7 +1,7 @@
 
 "use server"
 
-import { loginSchema, registerSchema } from "@/lib/validations"
+import { authenticateSchema, loginSchema, registerSchema } from "@/lib/validations"
 import { env } from "@/lib/env.mjs"
 import { redirect } from "next/navigation"
 import { signIn } from '@/auth'
@@ -46,6 +46,18 @@ export async function login(_currentState: any, formData: FormData) {
 
 export async function authenticate(_prevState: string | undefined, formData: FormData) {
     try {
+        const identifier = formData.get('identifier')
+        const code = formData.get('code')
+
+        const validateFields = authenticateSchema.safeParse({
+            identifier,
+            code,
+        })
+
+        if (!validateFields.success) {
+            return validateFields.error.errors[0].message
+        }
+
         await signIn("credentials", formData)
     } catch (error) {
         if (error instanceof AuthError) {

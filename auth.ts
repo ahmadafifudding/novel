@@ -10,25 +10,18 @@ export const config = {
     providers: [
         Credentials({
             async authorize(credentials) {
-                const parsedCredentials = authenticateSchema.safeParse(credentials);
+                const response = await fetch(`${env.NEXT_PUBLIC_API_URL}/api/validateOtp`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${env.API_TOKEN_NOVEL}`
+                    },
+                    body: JSON.stringify(credentials)
+                });
 
-                if (parsedCredentials.success) {
-                    const response = await fetch(`${env.NEXT_PUBLIC_API_URL}/validateOtp`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${env.API_TOKEN_NOVEL}`
-                        },
-                        body: JSON.stringify(parsedCredentials.data)
-                    });
-
-                    const data = await response.json();
-
-                    if (response.ok) {
-                        return data;
-                    }
-
-                    return null;
+                if (response.ok) {
+                    console.log(response)
+                    return await response.json();
                 }
                 return null
             }
