@@ -46,8 +46,7 @@ export async function login(_currentState: any, formData: FormData) {
 
 export async function authenticate(_prevState: string | undefined, formData: FormData) {
     try {
-        // await signIn("credentials", formData)
-        console.log('formData', formData)
+        await signIn("credentials", formData)
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {

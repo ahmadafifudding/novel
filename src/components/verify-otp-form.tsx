@@ -53,7 +53,9 @@ export function VerifyOTPForm({ identifier, code }: VerifyOTPFormProps) {
             </InputOTPGroup>
           </InputOTP>
         </div>
-        <FormMessage className="text-center">Testing error message</FormMessage>
+        {errorMessage && (
+          <FormMessage className="text-center">{errorMessage}</FormMessage>
+        )}
         <FormDescription className="text-center">
           Please enter the verification code we sent to&nbsp;
           <span className="font-bold">{identifier}</span>
