@@ -12,6 +12,7 @@ import {
   InputOTPSlot,
 } from '@/components/ui/input-otp'
 import { Label } from '@/components/ui/label'
+import { Spinner } from '@/components/ui/spinner'
 
 type VerifyOTPFormProps = {
   identifier: string
@@ -34,9 +35,15 @@ export function VerifyOTPForm({ identifier, code }: VerifyOTPFormProps) {
         />
       </div>
       <div className="grid space-y-2">
-        <Label htmlFor="code" className="mb-4 text-center">
-          One-Time Password ({code})
-        </Label>
+        <div className="mb-4 grid text-center">
+          <Label htmlFor="code" className="mb-2">
+            One-Time Password ({code})
+          </Label>
+          <FormDescription>
+            Please enter the verification code we sent to&nbsp;
+            <span className="font-bold">{identifier}</span>
+          </FormDescription>
+        </div>
         <div className="flex justify-center">
           <InputOTP id="code" name="code" maxLength={6}>
             <InputOTPGroup>
@@ -62,10 +69,6 @@ export function VerifyOTPForm({ identifier, code }: VerifyOTPFormProps) {
         {errorMessage && (
           <FormMessage className="text-center">{errorMessage}</FormMessage>
         )}
-        <FormDescription className="text-center">
-          Please enter the verification code we sent to&nbsp;
-          <span className="font-bold">{identifier}</span>
-        </FormDescription>
       </div>
       <VerifyButton />
     </form>
@@ -77,7 +80,7 @@ function VerifyButton() {
 
   return (
     <div className="grid">
-      <Button disabled={pending}>Verify</Button>
+      <Button disabled={pending}>{pending ? <Spinner /> : 'Verify'}</Button>
     </div>
   )
 }

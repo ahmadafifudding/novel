@@ -61,9 +61,12 @@ export async function authenticate(_prevState: string | undefined, formData: For
         await signIn("credentials", formData)
     } catch (error) {
         if (error instanceof AuthError) {
+            console.log(error)
             switch (error.type) {
                 case 'CredentialsSignin':
                     return 'Invalid credentials.'
+                case 'CallbackRouteError':
+                    return error.cause?.err?.message
                 default:
                     return 'Something went wrong. Please try again.'
             }
