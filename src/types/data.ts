@@ -1,6 +1,9 @@
 import { Novel } from '@/types/novel'
-import { User } from '@/types/user'
+
+export type FetchNovels = {
+    data: Novel[]
+}
 
 export type FetchNovel = {
-    data: Novel[]
+    data: Novel
 }

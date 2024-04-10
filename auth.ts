@@ -2,8 +2,10 @@ import { env } from "@/lib/env.mjs";
 import type { NextAuthConfig } from "next-auth";
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import { authConfig } from "./auth.config"
 
 export const config = {
+    ...authConfig,
     providers: [
         Credentials({
             async authorize(credentials) {
@@ -23,7 +25,6 @@ export const config = {
             }
         })
     ],
-    basePath: "/auth",
     callbacks: {
         async jwt({ token, user }) {
             if (user) return { ...token, ...user }

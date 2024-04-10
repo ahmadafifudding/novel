@@ -1,5 +1,12 @@
+import { Metadata } from 'next'
+
 import { fetchNovels } from '@/lib/data'
 import { NovelItem } from '@/components/novel-item'
+
+export const metadata: Metadata = {
+  title: 'Novels',
+  description: 'List of novels',
+}
 
 export default async function NovelPage() {
   const data = await fetchNovels()

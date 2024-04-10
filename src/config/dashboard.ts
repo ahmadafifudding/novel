@@ -9,7 +9,7 @@ export const dashboardConfig: DashboardConfig = {
         },
         {
             title: 'Novel List',
-            href: '/novels',
+            href: '/dashboard/novels',
         },
     ],
 }
