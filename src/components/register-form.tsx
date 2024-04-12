@@ -1,25 +1,11 @@
 'use client'
 
 import { register } from '@/actions/auth'
-import { ChevronUpDownIcon } from '@heroicons/react/16/solid'
 
 import { CountryCode } from '@/types/country-code'
 import { Button } from '@/components/ui/button'
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from '@/components/ui/command'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import {
   Select,
@@ -91,8 +77,8 @@ export function RegisterForm({ countryCode }: RegisterFormProps) {
         />
       </div>
       <div className="space-y-3 sm:col-span-4">
-        <Label htmlFor="gender">Gender</Label>
-        <RadioGroup id="gender" className="flex space-x-4">
+        <Label>Gender</Label>
+        <RadioGroup className="flex space-x-4">
           <div className="flex items-center space-x-2">
             <RadioGroupItem value="male" id="male" />
             <Label htmlFor="male">Male</Label>
