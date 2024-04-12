@@ -1,6 +1,7 @@
 import { dashboardConfig } from '@/config/dashboard'
 
 import { Nav } from './nav'
+import { UserNav } from './user-nav'
 
 export function Navbar() {
   return (
@@ -28,9 +29,9 @@ export function Navbar() {
                 </clipPath>
               </defs>
             </svg>
-            <div className="ml-auto">
-              <Nav navs={dashboardConfig.mainNav} />
-            </div>
+            <Nav navs={dashboardConfig.mainNav} />
+            <div className="ml-auto"></div>
+            <UserNav />
           </div>
         </div>
       </div>

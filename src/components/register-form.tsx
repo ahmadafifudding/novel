@@ -1,94 +1,119 @@
 'use client'
 
-import { CountryCode } from '@/types'
-import { useFormState } from 'react-dom'
+import { register } from '@/actions/auth'
+import { ChevronUpDownIcon } from '@heroicons/react/16/solid'
 
-import { register } from '@/lib/actions'
+import { CountryCode } from '@/types/country-code'
 import { Button } from '@/components/ui/button'
-import { FormItem, FormLabel, FormMessage } from '@/components/ui/custom-form'
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@/components/ui/command'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-
-import { SelectCountryCode } from './select-country-code'
-import { RadioGroup, RadioGroupItem } from './ui/radio-group'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 interface RegisterFormProps {
   countryCode: CountryCode[]
 }
 
-const initialState = {
-  message: '',
-}
-
 export function RegisterForm({ countryCode }: RegisterFormProps) {
-  const [state, formAction] = useFormState(register, initialState)
-
   return (
-    <form action={formAction} className="space-y-3">
-      <FormItem className="grid">
-        <FormLabel htmlFor="first-name">First name</FormLabel>
+    <form
+      className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
+      action={register}
+    >
+      <div className="space-y-2 sm:col-span-3">
+        <Label htmlFor="firstName">First name</Label>
+        <Input id="firstName" type="text" name="firstName" placeholder="Nur" />
+      </div>
+      <div className="space-y-2 sm:col-span-3">
+        <Label htmlFor="lastName">Last name</Label>
         <Input
-          id="first-name"
+          id="lastName"
           type="text"
-          name="first-name"
+          name="lastName"
           placeholder="Fatihah"
         />
-        <FormMessage>{state?.errors?.email}</FormMessage>
-      </FormItem>
-      <FormItem className="grid">
-        <FormLabel htmlFor="last-name">Last name</FormLabel>
-        <Input
-          id="last-name"
-          type="text"
-          name="last-name"
-          placeholder="Safiya"
-        />
-        <FormMessage>{state?.errors?.email}</FormMessage>
-      </FormItem>
-      <FormItem className="grid">
-        <FormLabel htmlFor="phone-number">Phone</FormLabel>
-        <div className="grid grid-cols-1 gap-y-2 lg:grid-cols-2 lg:gap-x-2">
-          <SelectCountryCode options={countryCode} />
-          <Input
-            id="phone-number"
-            type="tel"
-            name="phone-number"
-            placeholder="0145464803"
-          />
-        </div>
-        <FormMessage>{state?.errors?.email}</FormMessage>
-      </FormItem>
-      <FormItem className="grid">
-        <FormLabel htmlFor="email">Email</FormLabel>
+      </div>
+      <div className="space-y-2 sm:col-span-4">
+        <Label htmlFor="email">Email address</Label>
         <Input
           id="email"
           type="email"
           name="email"
           placeholder="example@kacs.com.my"
         />
-        <FormMessage>{state?.errors?.email}</FormMessage>
-      </FormItem>
-      <FormItem className="grid">
-        <FormLabel htmlFor="email">Gender</FormLabel>
-        <RadioGroup className="flex space-x-4">
+      </div>
+      <div className="space-y-2 sm:col-span-3">
+        <Label>Country code</Label>
+        <Select name="countryCode">
+          <SelectTrigger>
+            <SelectValue placeholder="Select country code" />
+          </SelectTrigger>
+          <SelectContent>
+            {countryCode.map((country) => (
+              <SelectItem key={country.code} value={country.code}>
+                <div className="flex items-center gap-3">
+                  <div className="flex h-5 w-5 items-center justify-center rounded-full bg-slate-100">
+                    {country.flag}
+                  </div>
+                  <span>{country.name}</span>
+                </div>
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="space-y-2 sm:col-span-3">
+        <Label htmlFor="phoneNumber">Phone number</Label>
+        <Input
+          id="phoneNumber"
+          type="tel"
+          name="phoneNumber"
+          placeholder="0145464803"
+        />
+      </div>
+      <div className="space-y-3 sm:col-span-4">
+        <Label htmlFor="gender">Gender</Label>
+        <RadioGroup id="gender" className="flex space-x-4">
           <div className="flex items-center space-x-2">
-            <RadioGroupItem value="male" id="male">
-              Male
-            </RadioGroupItem>
+            <RadioGroupItem value="male" id="male" />
             <Label htmlFor="male">Male</Label>
           </div>
           <div className="flex items-center space-x-2">
-            <RadioGroupItem value="female" id="female">
-              Female
-            </RadioGroupItem>
+            <RadioGroupItem value="female" id="female" />
             <Label htmlFor="female">Female</Label>
           </div>
         </RadioGroup>
-        <FormMessage>{state?.errors?.email}</FormMessage>
-      </FormItem>
-      <div className="mt-4 grid">
-        <Button>Create account</Button>
       </div>
+      <RegisterButton />
     </form>
+  )
+}
+
+function RegisterButton() {
+  return (
+    <div className="col-span-full">
+      <Button type="submit" className="w-full">
+        Register
+      </Button>
+    </div>
   )
 }

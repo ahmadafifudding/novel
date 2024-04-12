@@ -13,7 +13,7 @@ export function Nav({ navs }: NavLinkProps) {
   const path = usePathname()
 
   return (
-    <nav className="text-sm font-semibold leading-6 text-slate-700">
+    <nav className="mx-6 text-sm font-medium text-slate-700">
       <ul className="flex items-center space-x-8">
         {navs.map((nav) => {
           const isActive = nav.exact

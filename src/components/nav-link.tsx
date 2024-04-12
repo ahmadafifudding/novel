@@ -13,10 +13,7 @@ export function NavLink({ href, children, isActive }: NavLinkProps) {
     <li>
       <Link
         href={href ?? '#'}
-        className={cn(
-          'text-slate-900 hover:text-brand-500',
-          isActive && 'text-brand-500'
-        )}
+        className={cn('transition-colors', isActive && 'text-brand-500')}
       >
         {children}
       </Link>

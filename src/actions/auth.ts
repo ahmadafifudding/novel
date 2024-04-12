@@ -74,3 +74,7 @@ export async function authenticate(_prevState: string | undefined, formData: For
         throw error
     }
 }
+
+export async function register(formData: FormData) {
+    console.log('register : ' + formData.get('countryCode'))
+}

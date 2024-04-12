@@ -1,7 +1,7 @@
 import Image from 'next/image'
-import { Novel } from '@/types'
 import { StarIcon, UserIcon } from '@heroicons/react/24/outline'
 
+import { Novel } from '@/types/novel'
 import { SanitizedHtmlContent } from '@/components/sanitized-html-content'
 
 type NovelDetailsProps = {
