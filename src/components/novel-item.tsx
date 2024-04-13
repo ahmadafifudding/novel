@@ -27,7 +27,7 @@ export function NovelItem({ novel }: { novel: Novel }) {
       <div className="relative min-w-0 flex-auto md:py-4">
         <div className="sm:h-12">
           <Link
-            href={`/novels/${id}`}
+            href={`/dashboard/novels/${id}`}
             className="line-clamp-1 pr-20 font-semibold text-slate-900
           hover:text-brand-500 sm:line-clamp-2 sm:pr-0"
           >
