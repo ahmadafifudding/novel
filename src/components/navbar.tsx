@@ -1,7 +1,6 @@
 import { dashboardConfig } from '@/config/dashboard'
-
-import { Nav } from './nav'
-import { UserNav } from './user-nav'
+import { Nav } from '@/components/nav'
+import { UserNav } from '@/components/user-nav'
 
 export function Navbar() {
   return (

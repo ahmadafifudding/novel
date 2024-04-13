@@ -26,9 +26,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Spinner } from '@/components/ui/spinner'
 
 import { RadioGroup, RadioGroupItem } from './ui/radio-group'
-import { Spinner } from './ui/spinner'
 
 interface RegisterFormProps {
   countryCode: CountryCode[]
@@ -80,7 +80,7 @@ export function RegisterForm({ countryCode }: RegisterFormProps) {
   return (
     <Form {...form}>
       <form
-        className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
+        className="mt-10 grid grid-cols-1 gap-y-8 sm:grid-cols-6 sm:gap-x-6"
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <FormField
