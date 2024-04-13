@@ -88,8 +88,13 @@ export default async function HomePage() {
                 'One-Time Password (OTP) verification',
                 'Login in with One-Time Password (OTP)',
                 'Access to Novel after login',
-              ].map((item) => (
-                <h3 className="text-sm font-semibold text-slate-900">{item}</h3>
+              ].map((item, index) => (
+                <h3
+                  key={index}
+                  className="text-sm font-semibold text-slate-900"
+                >
+                  {item}
+                </h3>
               ))}
             </div>
           </div>

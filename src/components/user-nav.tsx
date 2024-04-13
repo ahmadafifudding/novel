@@ -1,4 +1,4 @@
-import { signOut } from '@/auth'
+import { auth, signOut } from '@/auth'
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -12,7 +12,9 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 
-export function UserNav() {
+export async function UserNav() {
+  const session = await auth()
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -25,9 +27,11 @@ export function UserNav() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">Ahmad Afifuddin</p>
+            <p className="text-sm font-medium leading-none">
+              {session?.user?.firstName} {session?.user?.lastName}
+            </p>
             <p className="text-xs leading-none text-slate-400">
-              example@kacs.com
+              {session?.user?.email}
             </p>
           </div>
         </DropdownMenuLabel>

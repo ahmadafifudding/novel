@@ -4,7 +4,8 @@ import { authenticate } from '@/actions/auth'
 import { useFormState, useFormStatus } from 'react-dom'
 
 import { Button } from '@/components/ui/button'
-import { FormDescription, FormMessage } from '@/components/ui/form'
+import { FormDescription } from '@/components/ui/form-description'
+import { FormMessage } from '@/components/ui/form-message'
 import { Input } from '@/components/ui/input'
 import {
   InputOTP,

@@ -6,6 +6,7 @@ import { env } from "@/lib/env.mjs"
 import { redirect } from "next/navigation"
 import { signIn } from '@/auth'
 import { AuthError } from "next-auth"
+import { count } from "console"
 
 
 export async function login(_currentState: any, formData: FormData) {
@@ -59,6 +60,7 @@ export async function authenticate(_prevState: string | undefined, formData: For
         }
 
         await signIn("credentials", formData)
+
     } catch (error) {
         if (error instanceof AuthError) {
             console.log(error)
@@ -75,6 +77,50 @@ export async function authenticate(_prevState: string | undefined, formData: For
     }
 }
 
-export async function register(formData: FormData) {
-    console.log('register : ' + formData.get('countryCode'))
+export async function register(_currentState: any, formData: FormData) {
+    const firstName = formData.get('firstName')
+    const lastName = formData.get('lastName')
+    const email = formData.get('email')
+    const countryCode = formData.get('countryCode')
+    const phoneNumber = formData.get('phoneNumber')
+    const gender = formData.get('gender')
+
+    const validatedFields = registerSchema.safeParse({
+        firstName,
+        lastName,
+        email,
+        countryCode,
+        phoneNumber,
+        gender,
+    })
+
+    if (!validatedFields.success) {
+        return {
+            errors: validatedFields.error.flatten().fieldErrors,
+        }
+    }
+
+    const response = await fetch(`${env.NEXT_PUBLIC_API_URL}/api/register`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${env.API_TOKEN_NOVEL}`
+        },
+        body: JSON.stringify({
+            firstName,
+            lastName,
+            email,
+            countryCode,
+            phoneNumber,
+            gender
+        })
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+        return {
+            message: data?.error?.message || "Something went wrong. Please try again."
+        }
+    }
 }

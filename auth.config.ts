@@ -10,6 +10,7 @@ export const authConfig = {
             const isLoggedIn = !!auth?.user
             const isOnDashboard = nextUrl.pathname.startsWith('/dashboard')
             const isOnLogin = nextUrl.pathname === '/login'
+            const isOnVerification = nextUrl.pathname === '/verification'
 
 
             if (nextUrl.pathname === '/dashboard') {

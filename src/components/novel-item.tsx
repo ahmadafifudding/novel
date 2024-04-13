@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { Novel } from '@/types'
 
+import { Novel } from '@/types/novel'
 import { getYear } from '@/lib/utils'
 
 export function NovelItem({ novel }: { novel: Novel }) {

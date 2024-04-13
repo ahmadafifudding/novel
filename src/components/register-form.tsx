@@ -1,12 +1,24 @@
 'use client'
 
-import { register } from '@/actions/auth'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 
 import { CountryCode } from '@/types/country-code'
+import { getDialCode } from '@/lib/utils'
+import { RegisterSchema, registerSchema } from '@/lib/validations'
 import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import {
   Select,
   SelectContent,
@@ -15,91 +27,199 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
+import { RadioGroup, RadioGroupItem } from './ui/radio-group'
+import { Spinner } from './ui/spinner'
+
 interface RegisterFormProps {
   countryCode: CountryCode[]
 }
 
 export function RegisterForm({ countryCode }: RegisterFormProps) {
-  return (
-    <form
-      className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
-      action={register}
-    >
-      <div className="space-y-2 sm:col-span-3">
-        <Label htmlFor="firstName">First name</Label>
-        <Input id="firstName" type="text" name="firstName" placeholder="Nur" />
-      </div>
-      <div className="space-y-2 sm:col-span-3">
-        <Label htmlFor="lastName">Last name</Label>
-        <Input
-          id="lastName"
-          type="text"
-          name="lastName"
-          placeholder="Fatihah"
-        />
-      </div>
-      <div className="space-y-2 sm:col-span-4">
-        <Label htmlFor="email">Email address</Label>
-        <Input
-          id="email"
-          type="email"
-          name="email"
-          placeholder="example@kacs.com.my"
-        />
-      </div>
-      <div className="space-y-2 sm:col-span-3">
-        <Label>Country code</Label>
-        <Select name="countryCode">
-          <SelectTrigger>
-            <SelectValue placeholder="Select country code" />
-          </SelectTrigger>
-          <SelectContent>
-            {countryCode.map((country) => (
-              <SelectItem key={country.code} value={country.code}>
-                <div className="flex items-center gap-3">
-                  <div className="flex h-5 w-5 items-center justify-center rounded-full bg-slate-100">
-                    {country.flag}
-                  </div>
-                  <span>{country.name}</span>
-                </div>
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-      <div className="space-y-2 sm:col-span-3">
-        <Label htmlFor="phoneNumber">Phone number</Label>
-        <Input
-          id="phoneNumber"
-          type="tel"
-          name="phoneNumber"
-          placeholder="0145464803"
-        />
-      </div>
-      <div className="space-y-3 sm:col-span-4">
-        <Label>Gender</Label>
-        <RadioGroup className="flex space-x-4">
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="male" id="male" />
-            <Label htmlFor="male">Male</Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value="female" id="female" />
-            <Label htmlFor="female">Female</Label>
-          </div>
-        </RadioGroup>
-      </div>
-      <RegisterButton />
-    </form>
-  )
-}
+  const router = useRouter()
+  const [isPending, setIsPending] = useState(false)
 
-function RegisterButton() {
+  const form = useForm<RegisterSchema>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      countryCode: '',
+      phoneNumber: '',
+    },
+  })
+
+  async function onSubmit(formData: RegisterSchema) {
+    try {
+      setIsPending(true)
+      const response = await fetch('/api/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        toast.error(data?.error?.message)
+        return
+      }
+
+      router.push(
+        '/verification?identifier=' + formData.email + '&code=' + data?.otp
+      )
+    } catch (error) {
+      toast.error('An error occurred. Please try again later.')
+    } finally {
+      setIsPending(false)
+    }
+  }
+
   return (
-    <div className="col-span-full">
-      <Button type="submit" className="w-full">
-        Register
-      </Button>
-    </div>
+    <Form {...form}>
+      <form
+        className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6"
+        onSubmit={form.handleSubmit(onSubmit)}
+      >
+        <FormField
+          control={form.control}
+          name="firstName"
+          render={({ field }) => (
+            <FormItem className="col-span-full sm:col-span-3">
+              <FormLabel htmlFor="firstName">First name</FormLabel>
+              <FormControl>
+                <Input
+                  id="firstName"
+                  type="text"
+                  placeholder="Nur"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="lastName"
+          render={({ field }) => (
+            <FormItem className="col-span-full sm:col-span-3">
+              <FormLabel htmlFor="lastName">Last name</FormLabel>
+              <FormControl>
+                <Input
+                  id="lastName"
+                  type="text"
+                  placeholder="Fatihah"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem className="col-span-full sm:col-span-4">
+              <FormLabel htmlFor="email">Email address</FormLabel>
+              <FormControl>
+                <Input
+                  id="email"
+                  type="text"
+                  placeholder="example@kacs.com.my"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="countryCode"
+          render={({ field }) => (
+            <FormItem className="col-span-full sm:col-span-3">
+              <FormLabel htmlFor="countryCode">Country Code</FormLabel>
+              <Select
+                onValueChange={(value) => {
+                  form.setValue('countryCode', value)
+                  form.setValue('phoneNumber', getDialCode(value, countryCode))
+                }}
+                defaultValue={field.value}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select country code" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent className="w-[280px]">
+                  {countryCode.map((item) => (
+                    <SelectItem key={item.code} value={item.code}>
+                      {item.name} ({item.dialCode})
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="phoneNumber"
+          render={({ field }) => (
+            <FormItem className="col-span-full sm:col-span-3">
+              <FormLabel htmlFor="phoneNumber">Phone Number</FormLabel>
+              <FormControl>
+                <Input
+                  id="phoneNumber"
+                  type="tel"
+                  placeholder="60145464803"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="gender"
+          render={({ field }) => (
+            <FormItem className="col-span-4 space-y-2">
+              <FormLabel>Gender</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onChange={field.onChange}
+                  className="flex space-x-4 pt-1"
+                >
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="male" />
+                    </FormControl>
+                    <FormLabel>Male</FormLabel>
+                  </FormItem>
+                  <FormItem className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value="female" />
+                    </FormControl>
+                    <FormLabel>Female</FormLabel>
+                  </FormItem>
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <div className="col-span-full">
+          <Button className="w-full" type="submit">
+            {isPending ? <Spinner /> : 'Create Account'}
+          </Button>
+        </div>
+      </form>
+    </Form>
   )
 }

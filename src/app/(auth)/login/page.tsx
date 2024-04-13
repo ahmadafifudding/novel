@@ -10,14 +10,14 @@ export const metadata: Metadata = {
 
 export default function LoginPage() {
   return (
-    <>
+    <div className="sm:mx-auto sm:w-full sm:max-w-sm">
       <LoginForm />
-      <div className="my-6 self-center text-sm">
+      <div className="my-6 text-center text-sm">
         <span className="text-slate-600">Don&apos;t have an account?</span>
         <Link href="/register" className="text-brand-500 hover:underline">
           &nbsp;Register
         </Link>
       </div>
-    </>
+    </div>
   )
 }
